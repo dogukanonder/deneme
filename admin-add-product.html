@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DS Shop - Ürün Ekle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            display: flex;
+            min-height: calc(100vh - 350px);
+        }
+        .admin-sidebar {
+            width: 250px;
+            background-color: var(--dark-color);
+            color: white;
+            padding: 20px 0;
+        }
+        .admin-sidebar h3 {
+            padding: 0 20px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
+        .admin-sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .admin-sidebar li {
+            margin-bottom: 5px;
+        }
+        .admin-sidebar a {
+            display: block;
+            color: #f8f9fa;
+            text-decoration: none;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+        }
+        .admin-sidebar a:hover,
+        .admin-sidebar a.active {
+            background-color: var(--primary-color);
+        }
+        .admin-sidebar i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .admin-content {
+            flex: 1;
+            padding: 30px;
+        }
+        .product-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-row {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        .image-upload {
+            border: 2px dashed var(--border-color);
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .image-upload:hover {
+            border-color: var(--primary-color);
+        }
+        .image-upload i {
+            font-size: 48px;
+            color: #adb5bd;
+            margin-bottom: 10px;
+        }
+        .image-upload p {
+            margin: 0;
+            color: #6c757d;
+        }
+        .image-preview {
+            display: none;
+            margin-top: 20px;
+        }
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 5px;
+        }
+        .image-preview .remove-image {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .image-preview:hover .remove-image {
+            opacity: 1;
+        }
+        .image-preview-container {
+            position: relative;
+            display: inline-block;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .btn-cancel,
+        .btn-save {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-cancel {
+            background-color: #f1f1f1;
+        }
+        .btn-save {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .btn-cancel:hover {
+            background-color: #e1e1e1;
+        }
+        .btn-save:hover {
+            background-color: var(--secondary-color);
+        }
+        .stock-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .stock-status input[type="radio"] {
+            width: auto;
+        }
+        .stock-quantity {
+            max-width: 100px;
+        }
+    </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+        <div class="header-top">
+            <a href="index.html" class="logo" id="logo">
+                <i class="fas fa-shopping-bag"></i>
+                DS Shop
+            </a>
+            <div class="search-bar">
+                <input type="text" placeholder="Ürün ara...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="user-actions">
+                <a href="#" class="toggle-wishlist" id="toggle-wishlist"><i class="far fa-heart"></i> İstek Listesi</a>
+                <a href="#" class="toggle-cart" id="toggle-cart"><i class="fas fa-shopping-cart"></i> Sepet</a>
+                <a href="#" class="btn login-btn" id="login-btn">Giriş Yap</a>
+            </div>
+        </div>
+    </div>
+    <nav class="nav-main">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-home">Ana Sayfa</a></li>
+                <li>
+                    <a href="#">Kategoriler <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="category.html?category=elektronik" class="category-link" data-category="elektronik">Elektronik</a>
+                        <a href="category.html?category=giyim" class="category-link" data-category="giyim">Giyim</a>
+                        <a href="category.html?category=ev-yasam" class="category-link" data-category="ev-yasam">Ev & Yaşam</a>
+                        <a href="category.html?category=kozmetik" class="category-link" data-category="kozmetik">Kozmetik</a>
+                        <a href="category.html?category=kitap" class="category-link" data-category="kitap">Kitap, Müzik, Film</a>
+                    </div>
+                </li>
+      
+            </ul>
+        </div>
+    </nav>
+</header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container admin-page">
+            <h1 class="section-title">Yeni Ürün Ekle</h1>
+            <div class="admin-container">
+                <div class="admin-sidebar">
+                    <h3>Menü</h3>
+                    <ul>
+                        <li><a href="admin-panel.html"><i class="fas fa-tachometer-alt"></i> Gösterge Paneli</a></li>
+                        <li><a href="admin-products.html"><i class="fas fa-box"></i> Ürünler</a></li>
+                        <li><a href="admin-add-product.html" class="active"><i class="fas fa-plus"></i> Ürün Ekle</a></li>
+                        <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Ana Sayfaya Dön </a></li>
+                    </ul>
+                </div>
+                <div class="admin-content">
+                    <form id="add-product-form" class="product-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-name">Ürün Adı</label>
+                                <input type="text" id="product-name" name="product-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-category">Kategori</label>
+                                <select id="product-category" name="product-category" required>
+                                    <option value="">Kategori Seçin</option>
+                                    <option value="elektronik">Elektronik</option>
+                                    <option value="giyim">Giyim</option>
+                                    <option value="ev-yasam">Ev & Yaşam</option>
+                                    <option value="kozmetik">Kozmetik</option>
+                                    <option value="kitap">Kitap, Müzik, Film</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-price">Fiyat (₺)</label>
+                                <input type="number" id="product-price" name="product-price" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Stok Durumu</label>
+                                <div class="stock-status">
+                                    <div>
+                                        <input type="radio" id="in-stock" name="stock-status" value="in-stock" checked>
+                                        <label for="in-stock">Stokta</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="out-of-stock" name="stock-status" value="out-of-stock">
+                                        <label for="out-of-stock">Stokta Yok</label>
+                                    </div>
+                                    <div>
+                                        <input type="number" id="stock-quantity" name="stock-quantity" min="0" value="1" class="stock-quantity">
+                                        <label for="stock-quantity">Miktar</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-description">Ürün Açıklaması</label>
+                            <textarea id="product-description" name="product-description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Ürün Görseli</label>
+                            <div class="image-upload" id="image-upload">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Görseli sürükleyin veya seçmek için tıklayın</p>
+                                <input type="file" id="product-image" name="product-image" accept="image/*" hidden>
+                            </div>
+                            <div class="image-preview" id="image-preview">
+                                <div class="image-preview-container">
+                                    <img id="preview-img" src="" alt="Ürün Görseli">
+                                    <button type="button" class="remove-image" id="remove-image"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <a href="admin-products.html" class="btn-cancel">İptal</a>
+                            <button type="submit" class="btn-save">Ürün Ekle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>DS Shop</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Hakkımızda</a></li>
+                        <li><a href="contact.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Kategoriler</h3>
+                    <ul class="footer-links">
+                        <li><a href="category.html?category=elektronik">Elektronik</a></li>
+                        <li><a href="category.html?category=giyim">Giyim</a></li>
+                        <li><a href="category.html?category=ev-yasam">Ev & Yaşam</a></li>
+                        <li><a href="category.html?category=kozmetik">Kozmetik</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>İletişim</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</li>
+                        <li><i class="fas fa-phone"></i> +90 212 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> info@dsshop.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 DS Shop. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">İşlem başarıyla tamamlandı!</span>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Admin Panel Yetki Kontrolü -->
+    <script>
+    // Admin panel erişim kontrolü
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kullanıcı giriş yapmış mı kontrol et
+        if (!isLoggedIn) {
+            // Giriş yapılmamışsa ana sayfaya yönlendir
+            window.location.href = 'index.html';
+            showToast('Bu sayfaya erişim için giriş yapmanız gerekiyor!', 'error');
+            return;
+        }
+        
+        // Kullanıcı kurumsal hesap mı kontrol et
+        if (userType !== 'corporate') {
+            // Kurumsal hesap değilse hesap sayfasına yönlendir
+            window.location.href = 'account.html';
+            showToast('Bu sayfaya erişim için kurumsal hesap gerekiyor!', 'error');
+            return;
+        }
+    });
+    </script>
+  <script>
+    // Admin panel erişim kontrolü
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kullanıcı giriş yapmış mı kontrol et
+        if (!isLoggedIn) {
+            // Giriş yapılmamışsa ana sayfaya yönlendir
+            window.location.href = 'index.html';
+            showToast('Bu sayfaya erişim için giriş yapmanız gerekiyor!', 'error');
+            return;
+        }
+        
+        // Kullanıcı kurumsal hesap mı kontrol et
+        if (userType !== 'corporate') {
+            // Kurumsal hesap değilse hesap sayfasına yönlendir
+            window.location.href = 'account.html';
+            showToast('Bu sayfaya erişim için kurumsal hesap gerekiyor!', 'error');
+            return;
+        }
+        
+        // Image upload functionality
+        const imageUpload = document.getElementById('image-upload');
+        const productImage = document.getElementById('product-image');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+        const removeImage = document.getElementById('remove-image');
+    
+        imageUpload.addEventListener('click', function() {
+            productImage.click();
+        });
+    
+        productImage.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    imageUpload.style.display = 'none';
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    
+        removeImage.addEventListener('click', function() {
+            productImage.value = '';
+            previewImg.src = '';
+            imagePreview.style.display = 'none';
+            imageUpload.style.display = 'block';
+        });
+        
+        // Stok durumu değişikliklerini dinle
+        const inStockRadio = document.getElementById('in-stock');
+        const outOfStockRadio = document.getElementById('out-of-stock');
+        const stockQuantity = document.getElementById('stock-quantity');
+        
+        inStockRadio.addEventListener('change', function() {
+            if (this.checked) {
+                stockQuantity.disabled = false;
+                if (stockQuantity.value === '0') {
+                    stockQuantity.value = '1';
+                }
+            }
+        });
+        
+        outOfStockRadio.addEventListener('change', function() {
+            if (this.checked) {
+                stockQuantity.disabled = true;
+                stockQuantity.value = '0';
+            }
+        });
+    
+        // Form submission
+        const form = document.getElementById('add-product-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate form fields
+            const productName = document.getElementById('product-name').value;
+            const productCategory = document.getElementById('product-category').value;
+            const productPrice = parseFloat(document.getElementById('product-price').value);
+            const productDescription = document.getElementById('product-description').value;
+            const stockStatus = document.querySelector('input[name="stock-status"]:checked').value;
+            const stockQuantity = parseInt(document.getElementById('stock-quantity').value);
+            
+            if (!productName || !productCategory || isNaN(productPrice) || !productDescription) {
+                showToast('Lütfen tüm gerekli alanları doldurun!', 'error');
+                return;
+            }
+            
+            // Check if image is uploaded
+            if (!previewImg.src) {
+                showToast('Lütfen bir ürün görseli ekleyin!', 'error');
+                return;
+            }
+            
+            // Yeni ürün ID'si oluştur
+            const highestId = products.reduce((max, product) => Math.max(max, product.id), 0);
+            const newProductId = highestId + 1;
+            
+            // Yeni ürün objesi oluştur
+            const newProduct = {
+                id: newProductId,
+                name: productName,
+                category: productCategory,
+                price: productPrice,
+                description: productDescription,
+                image: previewImg.src || '/api/placeholder/250/200',
+                stock: stockStatus === 'in-stock' ? stockQuantity : 0
+            };
+            
+            // Global ürün listesine ekle
+            products.push(newProduct);
+            
+            // localStorage'a kaydet
+            localStorage.setItem('dsshop-products', JSON.stringify(products));
+            
+            showToast('Ürün başarıyla eklendi!', 'success');
+            
+            // Redirect after a delay
+            setTimeout(function() {
+                window.location.href = 'admin-products.html';
+            }, 2000);
+        });
+    });
+    </script>

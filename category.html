@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DS Shop - Kategori</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+      <!-- Header -->
+      <header>
+        <div class="container">
+            <div class="header-top">
+                <a href="index.html" class="logo" id="logo">
+                    <i class="fas fa-shopping-bag"></i>
+                    DS Shop
+                </a>
+                <div class="search-bar">
+                    <input type="text" placeholder="Ürün ara...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-actions">
+                    <a href="#" class="toggle-wishlist" id="toggle-wishlist"><i class="far fa-heart"></i> İstek Listesi</a>
+                    <a href="#" class="toggle-cart" id="toggle-cart"><i class="fas fa-shopping-cart"></i> Sepet</a>
+                    <a href="#" class="btn login-btn" id="login-btn">Giriş Yap</a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-main">
+            <div class="container">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-home">Ana Sayfa</a></li>
+                    <li>
+                        <a href="#">Kategoriler <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown">
+                            <a href="category.html?category=elektronik" class="category-link" data-category="elektronik">Elektronik</a>
+                            <a href="category.html?category=giyim" class="category-link" data-category="giyim">Giyim</a>
+                            <a href="category.html?category=ev-yasam" class="category-link" data-category="ev-yasam">Ev & Yaşam</a>
+                            <a href="category.html?category=kozmetik" class="category-link" data-category="kozmetik">Kozmetik</a>
+                            <a href="category.html?category=kitap" class="category-link" data-category="kitap">Kitap, Müzik, Film</a>
+                        </div>
+                    </li>
+          
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container category-page">
+            <h1 class="category-title" id="category-title">Kategori Adı</h1>
+            <div class="category-container">
+                <div class="category-sidebar">
+                    <div class="filters-group">
+                        <h3 class="filters-title">Fiyat Aralığı</h3>
+                        <input type="range" min="0" max="10000" value="10000" class="price-slider" id="price-filter">
+                        <div class="price-range">
+                            <span>0 ₺</span>
+                            <span id="price-value">10.000 ₺</span>
+                        </div>
+                    </div>
+                    <div class="filters-group">
+                        <h3 class="filters-title">Markalar</h3>
+                        <div class="filter-item">
+                            <input type="checkbox" id="brand1" class="filter-checkbox">
+                            <label for="brand1">Marka 1</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="checkbox" id="brand2" class="filter-checkbox">
+                            <label for="brand2">Marka 2</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="checkbox" id="brand3" class="filter-checkbox">
+                            <label for="brand3">Marka 3</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="checkbox" id="brand4" class="filter-checkbox">
+                            <label for="brand4">Marka 4</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <div class="products-header">
+                        <span id="product-count">0 Ürün</span>
+                        <div class="sort-options">
+                            <span>Sırala:</span>
+                            <select id="sort-options">
+                                <option value="recommended">Önerilen</option>
+                                <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+                                <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+                                <option value="name-asc">İsim: A-Z</option>
+                                <option value="name-desc">İsim: Z-A</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="products-grid" id="category-products">
+                        <!-- Products will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>DS Shop</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Hakkımızda</a></li>
+                        <li><a href="contact.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Kategoriler</h3>
+                    <ul class="footer-links">
+                        <li><a href="category.html?category=elektronik">Elektronik</a></li>
+                        <li><a href="category.html?category=giyim">Giyim</a></li>
+                        <li><a href="category.html?category=ev-yasam">Ev & Yaşam</a></li>
+                        <li><a href="category.html?category=kozmetik">Kozmetik</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>İletişim</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</li>
+                        <li><i class="fas fa-phone"></i> +90 212 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> info@dsshop.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 DS Shop. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h2>Sepetim</h2>
+            <button class="cart-close" id="cart-close">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be dynamically loaded here -->
+        </div>
+        <div class="cart-total">
+            <div class="cart-total-text">
+                <span>Toplam</span>
+                <span id="cart-total">0,00 ₺</span>
+            </div>
+            <a href="checkout.html" class="cart-checkout" id="cart-checkout">Ödeme Yap</a>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div class="wishlist-modal" id="wishlist-modal">
+        <div class="wishlist-header">
+            <h2>İstek Listem</h2>
+            <button class="wishlist-close" id="wishlist-close">&times;</button>
+        </div>
+        <div class="wishlist-items" id="wishlist-items">
+            <!-- Wishlist items will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-login">&times;</span>
+            <h2>Giriş Yap</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">E-posta</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Şifre</label>
+                    <input type="password" id="login-password" required>
+                    <a class="forgot-password" id="forgot-password">Şifremi Unuttum</a>
+                </div>
+                <button type="submit" class="form-btn">Giriş Yap</button>
+                <div class="form-footer">
+                    Hesabınız yok mu? <a id="show-register">Kayıt Ol</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-register">&times;</span>
+            <h2>Kayıt Ol</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Ad</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-surname">Soyad</label>
+                    <input type="text" id="register-surname" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">E-posta</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Şifre</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password-confirm">Şifre Tekrar</label>
+                    <input type="password" id="register-password-confirm" required>
+                </div>
+                <!-- Yeni eklenen kullanıcı tipi seçim alanı -->
+                <div class="form-group">
+                    <label>Hesap Tipi</label>
+                    <div class="register-user-type">
+                        <div>
+                            <input type="radio" id="register-personal" name="register-user-type" value="personal" checked>
+                            <label for="register-personal">Bireysel</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="register-corporate" name="register-user-type" value="corporate">
+                            <label for="register-corporate">Kurumsal</label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="form-btn">Kayıt Ol</button>
+                <div class="form-footer">
+                    Zaten hesabınız var mı? <a id="show-login">Giriş Yap</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgot-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-forgot">&times;</span>
+            <h2>Şifremi Unuttum</h2>
+            <form id="forgot-form">
+                <div class="form-group">
+                    <label for="forgot-email">E-posta</label>
+                    <input type="email" id="forgot-email" required>
+                </div>
+                <button type="submit" class="form-btn">Şifre Sıfırlama Linki Gönder</button>
+                <div class="form-footer">
+                    Şifrenizi hatırladınız mı? <a id="back-to-login">Giriş Yap</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">İşlem başarıyla tamamlandı!</span>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        // Kategori sayfası için marka filtrelerini güncelleme
+function updateBrandFilters() {
+    // Kurumsal kullanıcıları (satıcıları) getir
+    const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+    const corporateUsers = users.filter(user => user.userType === 'corporate');
+    
+    // Eğer hiç kurumsal kullanıcı yoksa veya çok az varsa varsayılan kullanıcılar ekle
+    const defaultBrands = [
+        { id: 'brand1', name: 'TechStar' },
+        { id: 'brand2', name: 'FashionPlus' },
+        { id: 'brand3', name: 'HomeDecor' },
+        { id: 'brand4', name: 'BeautyWorld' }
+    ];
+    
+    // Kategori sayfasındaki marka filtreleri bölümü
+    const brandFilterContainer = document.querySelector('.filters-group:nth-child(2)');
+    if (!brandFilterContainer) return;
+    
+    // Marka filtreleri başlığı
+    const filterTitle = brandFilterContainer.querySelector('.filters-title');
+    if (filterTitle) {
+        filterTitle.textContent = 'Satıcılar';
+    }
+    
+    // Mevcut filtre öğelerini temizle
+    const existingFilters = brandFilterContainer.querySelectorAll('.filter-item');
+    existingFilters.forEach(item => item.remove());
+    
+    // Kurumsal kullanıcıları (veya varsayılan markaları) filtre olarak ekleyin
+    const brandsToShow = corporateUsers.length >= 3 ? corporateUsers : defaultBrands;
+    
+    brandsToShow.forEach((brand, index) => {
+        const brandId = brand.id || `brand${index + 1}`;
+        const brandName = brand.name || (brand.userType === 'corporate' ? `${brand.name} ${brand.surname}` : `Marka ${index + 1}`);
+        
+        const filterItem = document.createElement('div');
+        filterItem.className = 'filter-item';
+        filterItem.innerHTML = `
+            <input type="checkbox" id="${brandId}" class="filter-checkbox">
+            <label for="${brandId}">${brandName}</label>
+        `;
+        
+        brandFilterContainer.appendChild(filterItem);
+    });
+    
+    // Filtre işlevselliğini ekle
+    document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            // Kategori veya filtre değişikliğinde ürünleri yeniden filtrele
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
+            const search = urlParams.get('search');
+            const viewAll = urlParams.get('view') === 'all';
+            
+            if (category) {
+                filterCategoryProducts(category);
+            } else if (search) {
+                filterSearchResults(search);
+            } else if (viewAll) {
+                filterAllProducts();
+            }
+        });
+    });
+}
+
+// Ürün için satıcı ID'sini oluşturma fonksiyonu (bu güncellenmiş versiyon)
+function getBrandId(product) {
+    // Ürünün satıcısını bulmaya çalış
+    const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+    const corporateUsers = users.filter(user => user.userType === 'corporate');
+    
+    // Basit bir algoritma ile ürünleri satıcılara dağıt
+    if (corporateUsers.length > 0) {
+        const sellerIndex = product.id % corporateUsers.length;
+        return corporateUsers[sellerIndex].id || `brand${(sellerIndex % 4) + 1}`;
+    }
+    
+    // Eğer satıcı bulunamazsa, varsayılan marka ID'lerini kullan
+    return `brand${(product.id % 4) + 1}`;
+}
+
+// Kategori sayfası yüklendiğinde çağrılacak
+document.addEventListener('DOMContentLoaded', function() {
+    // Kategori sayfasında mıyız kontrol et
+    if (window.location.pathname.includes('category.html')) {
+        // Marka filtrelerini güncelle
+        updateBrandFilters();
+    }
+});
+    // Category page specific script
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kullanıcı verilerini yükle
+        if (isLoggedIn) {
+            loadCartFromStorage();
+            loadWishlistFromStorage();
+        }
+        
+        // Get parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        const searchQuery = urlParams.get('search');
+        const viewAll = urlParams.get('view') === 'all';
+        
+        if (category) {
+            loadCategoryProducts(category);
+            
+            // Update page title
+            document.title = `${getCategoryName(category)} - DS Shop`;
+            
+            // Update category title
+            document.getElementById('category-title').textContent = getCategoryName(category);
+            
+            // Filter and sort event listeners
+            document.getElementById('price-filter').addEventListener('input', function() {
+                document.getElementById('price-value').textContent = this.value + ' ₺';
+                filterCategoryProducts(category);
+            });
+            
+            document.getElementById('sort-options').addEventListener('change', function() {
+                filterCategoryProducts(category);
+            });
+            
+            document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    filterCategoryProducts(category);
+                });
+            });
+        } else if (searchQuery) {
+            // Arama sonuçlarını göster
+            loadSearchResults(searchQuery);
+            
+            // Update page title and category title
+            document.title = `"${searchQuery}" için Arama Sonuçları - DS Shop`;
+            document.getElementById('category-title').textContent = `"${searchQuery}" için Arama Sonuçları`;
+            
+            // Filter and sort event listeners for search results
+            document.getElementById('price-filter').addEventListener('input', function() {
+                document.getElementById('price-value').textContent = this.value + ' ₺';
+                filterSearchResults(searchQuery);
+            });
+            
+            document.getElementById('sort-options').addEventListener('change', function() {
+                filterSearchResults(searchQuery);
+            });
+            
+            document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    filterSearchResults(searchQuery);
+                });
+            });
+        } else if (viewAll) {
+            // Tüm ürünleri göster
+            loadAllProducts();
+            
+            // Update page title
+            document.title = 'Tüm Ürünler - DS Shop';
+            
+            // Filter and sort event listeners for all products
+            document.getElementById('price-filter').addEventListener('input', function() {
+                document.getElementById('price-value').textContent = this.value + ' ₺';
+                filterAllProducts();
+            });
+            
+            document.getElementById('sort-options').addEventListener('change', function() {
+                filterAllProducts();
+            });
+            
+            document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    filterAllProducts();
+                });
+            });
+        } else {
+            // If no parameter is provided, redirect to home page
+            window.location.href = 'index.html';
+        }
+    });
+    </script>
+</body>
+</html>
