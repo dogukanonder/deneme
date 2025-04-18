@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DS Shop - Hesabım</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Account page specific styles */
+        .empty-orders-message {
+            text-align: center;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .empty-orders-message i {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        
+        .order-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: white;
+        }
+        
+        .status-completed {
+            background-color: #28a745;
+        }
+        
+        .status-shipping {
+            background-color: #17a2b8;
+        }
+        
+        .status-processing {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .status-pending {
+            background-color: #6c757d;
+        }
+        
+        .status-canceled {
+            background-color: #dc3545;
+        }
+        
+        .order-details-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .order-details-section {
+            flex: 1;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .order-details-section:last-child {
+            margin-right: 0;
+        }
+        
+        .order-details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .order-details-table th,
+        .order-details-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .order-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .order-item-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .order-details-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+        <div class="header-top">
+            <a href="index.html" class="logo" id="logo">
+                <i class="fas fa-shopping-bag"></i>
+                DS Shop
+            </a>
+            <div class="search-bar">
+                <input type="text" placeholder="Ürün ara...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="user-actions">
+                <a href="#" class="toggle-wishlist" id="toggle-wishlist"><i class="far fa-heart"></i> İstek Listesi</a>
+                <a href="#" class="toggle-cart" id="toggle-cart"><i class="fas fa-shopping-cart"></i> Sepet</a>
+                <a href="#" class="btn login-btn" id="login-btn">Giriş Yap</a>
+            </div>
+        </div>
+    </div>
+    <nav class="nav-main">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-home">Ana Sayfa</a></li>
+                <li>
+                    <a href="#">Kategoriler <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="category.html?category=elektronik" class="category-link" data-category="elektronik">Elektronik</a>
+                        <a href="category.html?category=giyim" class="category-link" data-category="giyim">Giyim</a>
+                        <a href="category.html?category=ev-yasam" class="category-link" data-category="ev-yasam">Ev & Yaşam</a>
+                        <a href="category.html?category=kozmetik" class="category-link" data-category="kozmetik">Kozmetik</a>
+                        <a href="category.html?category=kitap" class="category-link" data-category="kitap">Kitap, Müzik, Film</a>
+                    </div>
+                </li>
+      
+            </ul>
+        </div>
+    </nav>
+</header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container account-page">
+            <h1 class="section-title">Hesabım</h1>
+            <div class="account-tabs">
+                <div class="account-tab active" data-tab="profile">Profilim</div>
+                <div class="account-tab" data-tab="orders">Siparişlerim</div>
+                <div class="account-tab" data-tab="wishlist">İstek Listem</div>
+                <div class="account-tab" data-tab="addresses">Adreslerim</div>
+                <div class="account-tab" data-tab="security">Güvenlik</div>
+            </div>
+            <div class="account-content">
+                <!-- Profile Section -->
+                <div class="account-section active" id="profile-section">
+                    <h2>Kişisel Bilgilerim</h2>
+                    <form class="account-form" id="profile-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profile-name">Ad</label>
+                                <input type="text" id="profile-name" value="Kullanıcı">
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-surname">Soyad</label>
+                                <input type="text" id="profile-surname" value="Adı">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-email">E-posta</label>
+                            <input type="email" id="profile-email" value="kullanici@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-phone">Telefon</label>
+                            <input type="tel" id="profile-phone" value="+90 500 000 00 00">
+                        </div>
+                        <button type="submit" class="form-btn">Bilgilerimi Güncelle</button>
+                    </form>
+                </div>
+                
+                <!-- Orders Section -->
+                <div class="account-section" id="orders-section">
+                    <h2>Sipariş Geçmişim</h2>
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Sipariş No</th>
+                                <th>Tarih</th>
+                                <th>Tutar</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Siparişler dinamik olarak buraya yüklenecek -->
+                        </tbody>
+                    </table>
+                    <!-- Sipariş yoksa gösterilecek boş durum mesajı buraya eklenecek -->
+                </div>
+                
+                <!-- Wishlist Section -->
+                <div class="account-section" id="wishlist-section">
+                    <h2>İstek Listem</h2>
+                    <div class="products-grid" id="account-wishlist">
+                        <!-- Wishlist items will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Addresses Section -->
+                <div class="account-section" id="addresses-section">
+                    <h2>Adreslerim</h2>
+                    <div class="addresses-container" id="addresses-container">
+                        <!-- Adresler buraya dinamik olarak eklenecek -->
+                    </div>
+                    <button class="form-btn" id="add-address-btn">Yeni Adres Ekle</button>
+                </div>
+                
+                <!-- Security Section -->
+                <div class="account-section" id="security-section">
+                    <h2>Güvenlik Ayarları</h2>
+                    <form class="account-form" id="security-form">
+                        <div class="form-group">
+                            <label for="current-password">Mevcut Şifre</label>
+                            <input type="password" id="current-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">Yeni Şifre</label>
+                            <input type="password" id="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-new-password">Yeni Şifre (Tekrar)</label>
+                            <input type="password" id="confirm-new-password">
+                        </div>
+                        <button type="submit" class="form-btn">Şifremi Güncelle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>DS Shop</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Hakkımızda</a></li>
+                        <li><a href="contact.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Kategoriler</h3>
+                    <ul class="footer-links">
+                        <li><a href="category.html?category=elektronik">Elektronik</a></li>
+                        <li><a href="category.html?category=giyim">Giyim</a></li>
+                        <li><a href="category.html?category=ev-yasam">Ev & Yaşam</a></li>
+                        <li><a href="category.html?category=kozmetik">Kozmetik</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>İletişim</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</li>
+                        <li><i class="fas fa-phone"></i> +90 212 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> info@dsshop.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 DS Shop. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h2>Sepetim</h2>
+            <button class="cart-close" id="cart-close">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be dynamically loaded here -->
+        </div>
+        <div class="cart-total">
+            <div class="cart-total-text">
+                <span>Toplam</span>
+                <span id="cart-total">0,00 ₺</span>
+            </div>
+            <a href="checkout.html" class="cart-checkout" id="cart-checkout">Ödeme Yap</a>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div class="wishlist-modal" id="wishlist-modal">
+        <div class="wishlist-header">
+            <h2>İstek Listem</h2>
+            <button class="wishlist-close" id="wishlist-close">&times;</button>
+        </div>
+        <div class="wishlist-items" id="wishlist-items">
+            <!-- Wishlist items will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">İşlem başarıyla tamamlandı!</span>
+    </div>
+
+    <!-- Address Form Modal -->
+    <div class="modal" id="address-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-address">&times;</span>
+            <h2 id="address-modal-title">Yeni Adres Ekle</h2>
+            <form id="address-form">
+                <input type="hidden" id="address-id" value="">
+                <div class="form-group">
+                    <label for="address-title">Adres Başlığı</label>
+                    <input type="text" id="address-title" placeholder="Örn: Ev, İş" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address-name">Ad</label>
+                        <input type="text" id="address-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-surname">Soyad</label>
+                        <input type="text" id="address-surname" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address-phone">Telefon</label>
+                    <input type="tel" id="address-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="address-detail">Adres</label>
+                    <textarea id="address-detail" rows="3" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address-city">İl</label>
+                        <input type="text" id="address-city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-district">İlçe</label>
+                        <input type="text" id="address-district" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address-zip">Posta Kodu</label>
+                    <input type="text" id="address-zip" required>
+                </div>
+                <button type="submit" class="form-btn" id="save-address-btn">Adresi Kaydet</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Script -->
+    <script src="script.js"></script>
+    
+    <!-- Account page specific script -->
+    <script>
+    // Account page specific script
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if user is logged in
+        if (!isLoggedIn) {
+            // Redirect to login page if not logged in
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        // Kurumsal hesapları admin paneline yönlendir
+        if (userType === 'corporate') {
+            showToast('Kurumsal hesaplar için yönetici paneli kullanılabilir!', 'info');
+            setTimeout(function() {
+                window.location.href = 'admin-panel.html';
+            }, 2000);
+            return;
+        }
+        
+        // Kullanıcı verilerini yükle (sepet ve istek listesi)
+        loadCartFromStorage();
+        loadWishlistFromStorage();
+        
+        // İstek listesi güncelle
+        updateWishlistUI();
+        updateAccountWishlist();
+        
+        // Kullanıcının adreslerini yükle
+        loadUserAddresses();
+        
+        // Siparişleri yükle
+        loadUserOrders();
+        
+        // Tab switching
+        document.querySelectorAll('.account-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                switchAccountTab(tabName);
+                
+                // Siparişler sekmesi seçildiyse siparişleri yükle
+                if (tabName === 'orders') {
+                    loadUserOrders();
+                } else if (tabName === 'wishlist') {
+                    updateAccountWishlist();
+                } else if (tabName === 'addresses') {
+                    loadUserAddresses();
+                }
+            });
+        });
+        
+        // Profile form submission
+        document.getElementById('profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Kullanıcı bilgilerini güncelle
+            updateUserProfile();
+            
+            showToast('Profil bilgileriniz güncellendi!', 'success');
+        });
+        
+        // Security form submission
+        document.getElementById('security-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Şifre değişikliği kontrolü
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmNewPassword = document.getElementById('confirm-new-password').value;
+            
+            if (newPassword !== confirmNewPassword) {
+                showToast('Yeni şifreler eşleşmiyor!', 'error');
+                return;
+            }
+            
+            // Şifreyi güncelle
+            updateUserPassword(currentPassword, newPassword);
+        });
+        
+        // Yeni adres ekleme butonu
+        document.getElementById('add-address-btn').addEventListener('click', function() {
+            openAddressModal();
+        });
+        
+        // Adres formu gönderimi
+        document.getElementById('address-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveUserAddress();
+        });
+        
+        // Adres modalını kapat
+        document.getElementById('close-address').addEventListener('click', function() {
+            closeModal('address-modal');
+        });
+        
+        // Sipariş detayları modalı için delegasyon
+        document.querySelector('#orders-section').addEventListener('click', function(e) {
+            if (e.target.classList.contains('order-details-btn')) {
+                const orderId = e.target.getAttribute('data-order-id');
+                showOrderDetails(orderId);
+            }
+        });
+        
+        // Kullanıcı bilgilerini form alanlarına doldur
+        fillUserProfileForm();
+        
+        // URL parametresine göre sekme değiştirme
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+        
+        if (tabParam) {
+            // Switch to the specified tab
+            switchAccountTab(tabParam);
+            
+            // Siparişler sekmesi seçilmişse siparişleri yükle
+            if (tabParam === 'orders') {
+                loadUserOrders();
+            } else if (tabParam === 'wishlist') {
+                updateAccountWishlist();
+            } else if (tabParam === 'addresses') {
+                loadUserAddresses();
+            }
+        }
+    });
+    
+    // Kullanıcı profil formunu doldur
+    function fillUserProfileForm() {
+        const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+        const user = users.find(u => u.email === currentUserEmail);
+        
+        if (user) {
+            document.getElementById('profile-name').value = user.name || '';
+            document.getElementById('profile-surname').value = user.surname || '';
+            document.getElementById('profile-email').value = user.email || '';
+            document.getElementById('profile-phone').value = user.phone || '';
+        }
+    }
+    
+    // Kullanıcı profil bilgilerini güncelle
+    function updateUserProfile() {
+        const name = document.getElementById('profile-name').value;
+        const surname = document.getElementById('profile-surname').value;
+        const email = document.getElementById('profile-email').value;
+        const phone = document.getElementById('profile-phone').value;
+        
+        // Kullanıcılar listesini al
+        const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+        const userIndex = users.findIndex(u => u.email === currentUserEmail);
+        
+        if (userIndex !== -1) {
+            // Kullanıcı bilgilerini güncelle
+            users[userIndex].name = name;
+            users[userIndex].surname = surname;
+            users[userIndex].phone = phone;
+            
+            // E-posta değişikliği (gerçek bir uygulamada daha fazla doğrulama gerekir)
+            if (email !== currentUserEmail) {
+                // E-mail değişikliği
+                users[userIndex].email = email;
+                currentUserEmail = email;
+                localStorage.setItem('dsshop-email', email);
+            }
+            
+            // Kullanıcı verilerini kaydet
+            localStorage.setItem('dsshop-users', JSON.stringify(users));
+            
+            // Kullanıcı adını headerda güncelle
+            updateUserHeader(name);
+        }
+    }
+    
+    // Kullanıcı şifresini güncelle
+    function updateUserPassword(currentPassword, newPassword) {
+        // Kullanıcılar listesini al
+        const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+        const userIndex = users.findIndex(u => u.email === currentUserEmail);
+        
+        if (userIndex !== -1) {
+            // Mevcut şifreyi kontrol et
+            if (users[userIndex].password !== currentPassword) {
+                showToast('Mevcut şifre hatalı!', 'error');
+                return;
+            }
+            
+            // Şifreyi güncelle
+            users[userIndex].password = newPassword;
+            
+            // Kullanıcı verilerini kaydet
+            localStorage.setItem('dsshop-users', JSON.stringify(users));
+            
+            // Başarı mesajı
+            showToast('Şifreniz başarıyla güncellendi!', 'success');
+            
+            // Formu temizle
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-new-password').value = '';
+        }
+    }
+    
+    // Kullanıcı adreslerini yükle
+    function loadUserAddresses() {
+        const addressesContainer = document.getElementById('addresses-container');
+        if (!addressesContainer) return;
+        
+        // Kullanıcı bilgilerini al
+        const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+        const user = users.find(u => u.email === currentUserEmail);
+        
+        // Adresler konteynerini temizle
+        addressesContainer.innerHTML = '';
+        
+        // Kullanıcının adresleri var mı kontrol et
+        if (!user || !user.addresses || user.addresses.length === 0) {
+            addressesContainer.innerHTML = `
+                <div class="empty-orders-message">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Henüz kayıtlı adresiniz bulunmamaktadır</h3>
+                    <p>Adreslerinizi "Yeni Adres Ekle" butonunu kullanarak ekleyebilirsiniz.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Adresleri listele
+        user.addresses.forEach((address, index) => {
+            const addressCard = document.createElement('div');
+            addressCard.className = 'address-card';
+            addressCard.innerHTML = `
+                <h3>${address.title}</h3>
+                <p>${address.name} ${address.surname}</p>
+                <p>${address.detail}</p>
+                <p>${address.district} / ${address.city}</p>
+                <p>Posta Kodu: ${address.zip}</p>
+                <p>Telefon: ${address.phone}</p>
+                <div class="address-actions">
+                    <button class="edit-address-btn" data-address-id="${index}">Düzenle</button>
+                    <button class="delete-address-btn" data-address-id="${index}">Sil</button>
+                </div>
+            `;
+            
+            addressesContainer.appendChild(addressCard);
+        });
+        
+        // Adres düzenleme butonlarına olay dinleyicileri ekle
+        document.querySelectorAll('.edit-address-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const addressId = this.getAttribute('data-address-id');
+                openAddressModal(parseInt(addressId));
+            });
+        });
+        
+        // Adres silme butonlarına olay dinleyicileri ekle
+        document.querySelectorAll('.delete-address-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const addressId = this.getAttribute('data-address-id');
+                if (confirm('Bu adresi silmek istediğinize emin misiniz?')) {
+                    deleteUserAddress(parseInt(addressId));
+                }
+            });
+        });
+    }
+    
+    // Adres ekleme/düzenleme modalını aç
+    function openAddressModal(addressId = null) {
+        // Modal başlığını ayarla
+        const modalTitle = document.getElementById('address-modal-title');
+        modalTitle.textContent = addressId !== null ? 'Adres Düzenle' : 'Yeni Adres Ekle';
+        
+        // Formu temizle
+        document.getElementById('address-form').reset();
+        document.getElementById('address-id').value = addressId !== null ? addressId : '';
+        
+        // Eğer düzenleme ise, mevcut adres bilgilerini doldur
+        if (addressId !== null) {
+            // Kullanıcı bilgilerini al
+            const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+            const user = users.find(u => u.email === currentUserEmail);
+            
+            if (user && user.addresses && user.addresses[addressId]) {
+                const address = user.addresses[addressId];
+                
+                document.getElementById('address-title').value = address.title;
+                document.getElementById('address-name').value = address.name;
+                document.getElementById('address-surname').value = address.surname;
+                document.getElementById('address-phone').value = address.phone;
+                document.getElementById('address-detail').value = address.detail;
+                document.getElementById('address-city').value = address.city;
+                document.getElementById('address-district').value = address.district;
+                document.getElementById('address-zip').value = address.zip;
+            }
+        }
+        
+        // Modalı aç
+        openModal('address-modal');
+    }
+    
+    // Kullanıcının adresini kaydet
+    function saveUserAddress() {
+        // Form verilerini topla
+        const addressId = document.getElementById('address-id').value;
+        const address = {
+            title: document.getElementById('address-title').value,
+            name: document.getElementById('address-name').value,
+            surname: document.getElementById('address-surname').value,
+            phone: document.getElementById('address-phone').value,
+            detail: document.getElementById('address-detail').value,
+            city: document.getElementById('address-city').value,
+            district: document.getElementById('address-district').value,
+            zip: document.getElementById('address-zip').value
+        };
+        
+        // Kullanıcı bilgilerini al
+        const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+        const userIndex = users.findIndex(u => u.email === currentUserEmail);
+        
+        if (userIndex !== -1) {
+            // Kullanıcının adresleri var mı kontrol et
+            if (!users[userIndex].addresses) {
+                users[userIndex].addresses = [];
+            }
+            
+            // Adres ekle veya güncelle
+            if (addressId === '') {
+                // Yeni adres
+                users[userIndex].addresses.push(address);
+                showToast('Adres başarıyla eklendi!', 'success');
+            } else {
+                // Mevcut adresi güncelle
+                const addressIndex = parseInt(addressId);
+                users[userIndex].addresses[addressIndex] = address;
+                showToast('Adres başarıyla güncellendi!', 'success');
+            }
+            
+            // Kullanıcı verilerini kaydet
+            localStorage.setItem('dsshop-users', JSON.stringify(users));
+            
+            // Adres listesini güncelle
+            loadUserAddresses();
+            
+            // Modalı kapat
+            closeModal('address-modal');
+        }
+    }
+    
+    // Kullanıcının adresini sil
+    function deleteUserAddress(addressId) {
+        // Kullanıcı bilgilerini al
+        const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+        const userIndex = users.findIndex(u => u.email === currentUserEmail);
+        
+        if (userIndex !== -1 && users[userIndex].addresses) {
+            // Adresi sil
+            users[userIndex].addresses.splice(addressId, 1);
+            
+            // Kullanıcı verilerini kaydet
+            localStorage.setItem('dsshop-users', JSON.stringify(users));
+            
+            // Adres listesini güncelle
+            loadUserAddresses();
+            
+            showToast('Adres başarıyla silindi!', 'success');
+        }
+    }
+    
+    // Kullanıcının siparişlerini yükle
+    function loadUserOrders() {
+        // Code devamı
+        const ordersSection = document.querySelector('#orders-section');
+        const ordersTableBody = document.querySelector('#orders-section table tbody');
+        if (!ordersTableBody) return;
+        
+        // Kullanıcı bilgilerini al
+        const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+        const user = users.find(u => u.email === currentUserEmail);
+        
+        // Kullanıcının siparişleri yoksa (ya da sipariş özelliği yoksa)
+        if (!user || !user.orders || user.orders.length === 0) {
+            // Var olan tabloyu kaldır
+            const existingTable = ordersSection.querySelector('table');
+            if (existingTable) {
+                existingTable.style.display = 'none';
+            }
+            
+            // Eğer zaten boş sipariş mesajı gösterilmiyorsa, ekle
+            if (!ordersSection.querySelector('.empty-orders-message')) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'empty-orders-message';
+                emptyMessage.innerHTML = `
+                    <i class="fas fa-shopping-bag"></i>
+                    <h3>Henüz bir siparişiniz bulunmamaktadır</h3>
+                    <p>Ürün satın aldığınızda, sipariş geçmişiniz burada görüntülenecektir.</p>
+                    <a href="index.html" class="form-btn" style="display: inline-block; margin-top: 15px;">Alışverişe Başla</a>
+                `;
+                ordersSection.appendChild(emptyMessage);
+            }
+            return;
+        }
+        
+        // Kullanıcının siparişi varsa, tablo gösterilsin ve boş mesaj kaldırılsın
+        const existingTable = ordersSection.querySelector('table');
+        if (existingTable) {
+            existingTable.style.display = 'table';
+        }
+        
+        const emptyMessage = ordersSection.querySelector('.empty-orders-message');
+        if (emptyMessage) {
+            emptyMessage.remove();
+        }
+        
+        // Sipariş listesini oluştur
+        ordersTableBody.innerHTML = '';
+        
+        // Siparişleri tarihe göre sırala (en yeni en üstte)
+        const sortedOrders = [...user.orders].sort((a, b) => {
+            // Tarih formatlarını düzgün şekilde karşılaştırma
+            const dateA = new Date(a.date.split('.').reverse().join('-'));
+            const dateB = new Date(b.date.split('.').reverse().join('-'));
+            return dateB - dateA;
+        });
+        
+        sortedOrders.forEach(order => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${order.id}</td>
+                <td>${order.date}</td>
+                <td>${formatPrice(order.total)}</td>
+                <td><span class="order-status status-${getStatusClass(order.status)}">${order.status}</span></td>
+                <td><button class="order-details-btn" data-order-id="${order.id}">Detaylar</button></td>
+            `;
+            ordersTableBody.appendChild(row);
+        });
+    }
+    
+    // Sipariş durumuna göre CSS sınıfı oluşturan yardımcı fonksiyon
+    function getStatusClass(status) {
+        switch(status.toLowerCase()) {
+            case 'tamamlandı':
+                return 'completed';
+            case 'kargoda':
+                return 'shipping';
+            case 'hazırlanıyor':
+                return 'processing';
+            case 'beklemede':
+                return 'pending';
+            case 'iptal edildi':
+                return 'canceled';
+            default:
+                return 'processing';
+        }
+    }
+    
+    // Sipariş detaylarını gösteren fonksiyon
+   // Sipariş detaylarını gösteren fonksiyon - Düzeltilmiş
+function showOrderDetails(orderId) {
+    // Kullanıcı bilgilerini al
+    const users = JSON.parse(localStorage.getItem('dsshop-users')) || [];
+    const user = users.find(u => u.email === currentUserEmail);
+    
+    if (!user || !user.orders) return;
+    
+    // Siparişi bul
+    const order = user.orders.find(o => o.id === orderId);
+    if (!order) return;
+    
+    // Ödeme yöntemi metni
+    let paymentMethodText = 'Belirtilmemiş';
+    if (order.payment && order.payment.method) {
+        // method alanı "credit-card" veya "bank-transfer" olabilir
+        paymentMethodText = order.payment.method === 'credit-card' ? 'Kredi Kartı' : 'Banka Havalesi';
+    }
+    
+    // Sipariş detayları için modal oluştur
+    let modalHTML = `
+        <div class="modal" id="order-details-modal" style="display: flex;">
+            <div class="modal-content" style="max-width: 800px; width: 90%;">
+                <span class="close-modal" id="close-order-details">&times;</span>
+                <h2>Sipariş Detayları - ${order.id}</h2>
+                
+                <div class="order-details-info">
+                    <div class="order-details-section">
+                        <h3>Sipariş Bilgileri</h3>
+                        <p><strong>Tarih:</strong> ${order.date}</p>
+                        <p><strong>Durum:</strong> <span class="order-status status-${getStatusClass(order.status)}">${order.status}</span></p>
+                        <p><strong>Ödeme Yöntemi:</strong> ${paymentMethodText}</p>
+                    </div>
+                    
+                    <div class="order-details-section">
+                        <h3>Teslimat Bilgileri</h3>
+                        <p><strong>Alıcı:</strong> ${order.customer.name} ${order.customer.surname}</p>
+                        <p><strong>Adres:</strong> ${order.customer.address}</p>
+                        <p><strong>İlçe/İl:</strong> ${order.customer.district}/${order.customer.city}</p>
+                        <p><strong>Telefon:</strong> ${order.customer.phone}</p>
+                    </div>
+                </div>
+                
+                <h3>Sipariş Edilen Ürünler</h3>
+                <table class="order-details-table">
+                    <thead>
+                        <tr>
+                            <th>Ürün</th>
+                            <th>Fiyat</th>
+                            <th>Adet</th>
+                            <th>Toplam</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+    
+    // Sipariş öğeleri
+    order.items.forEach(item => {
+        modalHTML += `
+            <tr>
+                <td>
+                    <div class="order-item">
+                        <img src="${item.image}" alt="${item.name}" class="order-item-img">
+                        <span>${item.name}</span>
+                    </div>
+                </td>
+                <td>${formatPrice(item.price)}</td>
+                <td>${item.quantity}</td>
+                <td>${formatPrice(item.total)}</td>
+            </tr>
+        `;
+    });
+    
+    // Modal'ı tamamla
+    modalHTML += `
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Ara Toplam:</strong></td>
+                            <td>${formatPrice(order.subtotal)}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Kargo:</strong></td>
+                            <td>${formatPrice(order.shipping)}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Toplam:</strong></td>
+                            <td><strong>${formatPrice(order.total)}</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+                <div class="order-details-actions">
+                    <button id="close-order-details-btn" class="btn-cancel">Kapat</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Modal'ı sayfaya ekle
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = modalHTML;
+    document.body.appendChild(tempDiv.firstElementChild);
+    
+    // Overlay'i göster
+    document.getElementById('overlay').style.display = 'block';
+    
+    // Modal'ı kapatma işlevleri
+    document.getElementById('close-order-details').addEventListener('click', closeOrderDetailsModal);
+    document.getElementById('close-order-details-btn').addEventListener('click', closeOrderDetailsModal);
+    document.getElementById('overlay').addEventListener('click', closeOrderDetailsModal);
+}
+    
+    // Sipariş detayları modalını kapatan fonksiyon
+    function closeOrderDetailsModal() {
+        const modal = document.getElementById('order-details-modal');
+        if (modal) {
+            modal.remove();
+        }
+        
+        // Başka açık modal yoksa overlay'i kapat
+        if (!isAnyModalOpen()) {
+            document.getElementById('overlay').style.display = 'none';
+        }
+    }
+    
+    // Check if the URL has a tab parameter
+    function switchAccountTab(tabName) {
+        // Update active tab
+        document.querySelectorAll('.account-tab').forEach(tab => {
+            if (tab.getAttribute('data-tab') === tabName) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+        
+        // Show active section
+        document.querySelectorAll('.account-section').forEach(section => {
+            if (section.id === `${tabName}-section`) {
+                section.classList.add('active');
+            } else {
+                section.classList.remove('active');
+            }
+        });
+    }
+    
+    function updateAccountWishlist() {
+        const accountWishlistContainer = document.getElementById('account-wishlist');
+        accountWishlistContainer.innerHTML = '';
+        
+        if (wishlist.length === 0) {
+            accountWishlistContainer.innerHTML = `
+                <div class="empty-orders-message">
+                    <i class="far fa-heart"></i>
+                    <h3>İstek listenizde ürün bulunmamaktadır</h3>
+                    <p>Beğendiğiniz ürünleri istek listenize ekleyerek daha sonra kolayca bulabilirsiniz.</p>
+                    <a href="index.html" class="form-btn" style="display: inline-block; margin-top: 15px;">Alışverişe Başla</a>
+                </div>
+            `;
+            return;
+        }
+        
+        wishlist.forEach(productId => {
+            const product = findProductById(productId);
+            if (product) {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-img">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <div class="product-price">${formatPrice(product.price)}</div>
+                        <div class="product-actions">
+                            <button class="add-to-cart" data-id="${product.id}">Sepete Ekle</button>
+                            <button class="remove-from-wishlist" data-id="${product.id}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                
+                accountWishlistContainer.appendChild(productCard);
+                
+                // Make product card clickable
+                productCard.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('add-to-cart') && 
+                        !e.target.classList.contains('remove-from-wishlist') && 
+                        !e.target.closest('.remove-from-wishlist')) {
+                        window.location.href = `product-detail.html?id=${product.id}`;
+                    }
+                });
+            }
+        });
+        
+        // Add event listeners for account wishlist actions
+        document.querySelectorAll('#account-wishlist .add-to-cart').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const productId = parseInt(this.getAttribute('data-id'));
+                addToCart(productId, 1);
+            });
+        });
+        
+        document.querySelectorAll('#account-wishlist .remove-from-wishlist').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const productId = parseInt(this.getAttribute('data-id'));
+                removeFromWishlist(productId);
+                updateAccountWishlist();
+            });
+        });
+    }
+    </script>
+</body>
+</html>
